@@ -14,6 +14,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_splash)
+
+
+
+
+
         Handler().postDelayed({
             startActivity(Intent(this, introActivity::class.java))
             finish()

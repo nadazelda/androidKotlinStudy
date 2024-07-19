@@ -16,22 +16,21 @@ import com.google.firebase.auth.auth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private lateinit var auth: FirebaseAuth
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-        auth = Firebase.auth
 
-        binding.logoutBtn.setOnClickListener({
-            auth.signOut()
 
-            var intent = Intent(this, introActivity::class.java)
-            startActivity(intent);
-        })
+//        binding.logoutBtn.setOnClickListener({
+//            auth.signOut()
+//
+//            var intent = Intent(this, introActivity::class.java)
+//            startActivity(intent);
+//        })
 
     }
 }
