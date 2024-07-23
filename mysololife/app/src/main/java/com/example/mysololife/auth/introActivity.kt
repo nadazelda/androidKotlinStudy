@@ -26,17 +26,7 @@ class introActivity : AppCompatActivity() {
         //enableEdgeToEdge() // 화면 전체 적용하는 함수같다
         setContentView(R.layout.activity_intro)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
-        auth = Firebase.auth
-        if ( auth.currentUser?.uid == null){
-            //로그인 없으면
-            //var intent = Intent(this, introActivity::class.java)
-            //임시로 갑니다 firebase가 안되엇
-            var intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }else{
-            var intent = Intent(this, MainActivity ::class.java)
-            startActivity(intent)
-        }
+        Toast.makeText(this,"intro activiey", Toast.LENGTH_SHORT).show()
 
         //회원가입
         binding.joinBtn.setOnClickListener({
