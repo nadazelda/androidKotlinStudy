@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityIntroBinding
 import com.example.mysololife.databinding.FragmentHomeBinding
@@ -38,7 +39,16 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false )
 
         binding.goodtip.setOnClickListener({
-            Toast.makeText(context,"goodtip clickd", Toast.LENGTH_SHORT,).show()
+            it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
+        })
+        binding.bottomBookmark.setOnClickListener({
+            it.findNavController().navigate(R.id.action_homeFragment_to_bookmarkFragment)
+        })
+        binding.bottomStore.setOnClickListener({
+            it.findNavController().navigate(R.id.action_homeFragment_to_storeFragment)
+        })
+        binding.goodtip.setOnClickListener({
+            it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
         })
 
         return binding.root
