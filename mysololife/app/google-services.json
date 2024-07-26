@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "108454988813",
+    "firebase_url": "https://comunityappstudy-default-rtdb.firebaseio.com",
     "project_id": "comunityappstudy",
     "storage_bucket": "comunityappstudy.appspot.com"
   },

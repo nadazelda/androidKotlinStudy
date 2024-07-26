@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.mysololife.R
 
 class ContentsRvAdaptor(val context : Context, var item : ArrayList<ContentModel>) : RecyclerView.Adapter<ContentsRvAdaptor.ViewHolder>(){
+    //recyclerview item클릭방법
     interface ItemClick {
         fun onClick(view : View, position: Int)
     }
