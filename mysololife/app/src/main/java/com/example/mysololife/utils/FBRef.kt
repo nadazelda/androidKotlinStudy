@@ -11,5 +11,7 @@ class FBRef {
         var contents = database.getReference("contents")
         var contents2 = database.getReference("contents2")
 
+        var boardRef= database.getReference("board")
+
     }
 }

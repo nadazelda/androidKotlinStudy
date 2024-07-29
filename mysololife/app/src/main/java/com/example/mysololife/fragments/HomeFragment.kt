@@ -47,8 +47,8 @@ class HomeFragment : Fragment() {
         binding.bottomStore.setOnClickListener({
             it.findNavController().navigate(R.id.action_homeFragment_to_storeFragment)
         })
-        binding.goodtip.setOnClickListener({
-            it.findNavController().navigate(R.id.action_homeFragment_to_tipFragment)
+        binding.bottomTalk.setOnClickListener({
+            it.findNavController().navigate(R.id.action_homeFragment_to_talkFragment)
         })
 
         return binding.root
