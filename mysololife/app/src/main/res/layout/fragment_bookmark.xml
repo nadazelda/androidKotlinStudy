@@ -8,10 +8,10 @@
     tools:context=".fragments.BookmarkFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="bookmark" />
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="bookmark" />-->
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +19,12 @@
         android:layout_height="match_parent"
 
         >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="90dp"
+            android:id="@+id/bookmarkRv"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -7,15 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.utils.FBAuth
 import com.example.mysololife.utils.FBRef
 
-class ContentsRvAdaptor(val context : Context, var item : ArrayList<ContentModel>,var keylist : ArrayList<String> ,var bookmarkList : MutableList<String> )
-        : RecyclerView.Adapter<ContentsRvAdaptor.ViewHolder>(){
+class BookmarkRvAdaptor(val context : Context, var item : ArrayList<ContentModel>, var keylist : ArrayList<String>, var bookmarkList : MutableList<String> )
+    : RecyclerView.Adapter<BookmarkRvAdaptor.ViewHolder>(){
     //recyclerview item클릭방법
 //    interface ItemClick {
 //        fun onClick(view : View, position: Int)
@@ -25,12 +24,12 @@ class ContentsRvAdaptor(val context : Context, var item : ArrayList<ContentModel
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ContentsRvAdaptor.ViewHolder {
+    ): BookmarkRvAdaptor.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.contents_rv_item, parent,false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: ContentsRvAdaptor.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BookmarkRvAdaptor.ViewHolder, position: Int) {
 //        if(itemClick != null) {
 //            holder.itemView.setOnClickListener { v->
 //                itemClick?.onClick(v, position)
@@ -61,21 +60,7 @@ class ContentsRvAdaptor(val context : Context, var item : ArrayList<ContentModel
                 bookmarkArea.setImageResource(R.drawable.bookmark_color)
             }else{
                 bookmarkArea.setImageResource(R.drawable.bookmark_white)
-
             }
-            //북마크를 누르면 데이터 저장해두기
-            bookmarkArea.setOnClickListener({
-                //Toast.makeText(context,FBAuth.getUid(),Toast.LENGTH_SHORT).show()
-                if( bookmarkList.contains(key) ) {
-                    FBRef.bookmarkRef.child(FBAuth.getUid())
-                        .child(key)
-                        .removeValue()
-                }else{
-                    FBRef.bookmarkRef.child(FBAuth.getUid())
-                        .child(key)
-                        .setValue(BookmarkModel(true))
-                }
-            })
 
             contentTitle.text = item.title
 

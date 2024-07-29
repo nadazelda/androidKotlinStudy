@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysololife.R
+import com.example.mysololife.utils.FBAuth
+import com.example.mysololife.utils.FBRef
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,20 +23,23 @@ import com.google.firebase.database.getValue
 
 class ContentsListActivity : AppCompatActivity() {
     lateinit var myRef : DatabaseReference
+    var bookmarkIdList = mutableListOf<String>()
+    lateinit var rvAdaptor : ContentsRvAdaptor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contents_list)
+        var rv: RecyclerView = findViewById(R.id.rv)
+        var items = ArrayList<ContentModel>()
 
+        var keyList = ArrayList<String>()
+        rvAdaptor = ContentsRvAdaptor(baseContext, items,keyList,bookmarkIdList)
 
         // Write a message to the database
         val database = Firebase.database
+
         //파라미터를 받습니다
         myRef = database.getReference(intent.getStringExtra("category").toString())
 
-        var rv: RecyclerView = findViewById(R.id.rv)
-        var items = ArrayList<ContentModel>()
-        var rvAdaptor = ContentsRvAdaptor(baseContext, items)
-        
         
         var postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -42,6 +47,7 @@ class ContentsListActivity : AppCompatActivity() {
                     //firebase와 같은 형태의 ㅁmodel 클래스에 맞게끔 매
                     val item = dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    keyList.add(dataModel.key.toString())
                 }
                 //비동기 방식이기 때문에 해당 함수가 실행된 이후 어답터를 갱신해준다
                 rvAdaptor.notifyDataSetChanged()
@@ -56,22 +62,40 @@ class ContentsListActivity : AppCompatActivity() {
 
         //fire base database 접속
         myRef.addValueEventListener(postListener)
-
-        
         rv.adapter = rvAdaptor
-
         rv.layoutManager = GridLayoutManager(this, 2) //가로 2개 배치
-        rvAdaptor.itemClick = object : ContentsRvAdaptor.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
+        getBookmark()
 
-                var intent = Intent(this@ContentsListActivity, ContentShowActivity::class.java)
-                //이미지를 누르면 웹뷰를 호출
-                intent.putExtra("url", items[position].imageUrl)
-                startActivity(intent)
+//        rvAdaptor.itemClick = object : ContentsRvAdaptor.ItemClick {
+//            override fun onClick(view: View, position: Int) {
+//                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
+//
+//                var intent = Intent(this@ContentsListActivity, ContentShowActivity::class.java)
+//                //이미지를 누르면 웹뷰를 호출
+//                intent.putExtra("url", items[position].imageUrl)
+//                startActivity(intent)
+//            }
+//
+//        }
+    }
+
+    private fun getBookmark(){
+        var postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkIdList.clear()
+                for (dataModel in dataSnapshot.children) {
+                    //Log.d("ContentListActivity getBookmark",dataModel.toString())
+                    bookmarkIdList.add(dataModel.key.toString())
+                }
+                //비동기 방식이기 때문에 해당 함수가 실행된 이후 어답터를 갱신해준다
+                rvAdaptor.notifyDataSetChanged()
             }
-
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
         }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 }
 
