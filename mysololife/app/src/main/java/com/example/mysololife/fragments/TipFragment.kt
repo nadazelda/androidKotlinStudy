@@ -28,11 +28,20 @@ class TipFragment : Fragment() {
 
         binding.category1.setOnClickListener({
             val intent = Intent(context, ContentsListActivity::class.java)
-            intent.putExtra("category", "category1")
+            intent.putExtra("category", "contents")
             startActivity(intent)
 
 
         })
+
+        binding.category2.setOnClickListener({
+            val intent = Intent(context, ContentsListActivity::class.java)
+            intent.putExtra("category", "contents2")
+            startActivity(intent)
+
+
+        })
+
 
         binding.bottomBookmark.setOnClickListener({
             it.findNavController().navigate(R.id.action_tipFragment_to_bookmarkFragment)
