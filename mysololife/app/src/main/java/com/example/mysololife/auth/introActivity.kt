@@ -25,7 +25,7 @@ class introActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_intro)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
-        Toast.makeText(this,"intro activiey", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"intro activiey", Toast.LENGTH_SHORT).show()
 
         //회원가입
         binding.joinBtn.setOnClickListener({

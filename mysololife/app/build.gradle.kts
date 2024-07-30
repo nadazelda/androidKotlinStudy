@@ -62,6 +62,13 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.11.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
 
+    //firebase storage
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-storage")
+
+
+    //firebase image refer
+    implementation ("com.firebaseui:firebase-ui-storage:7.2.0")
 
 
 
