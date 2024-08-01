@@ -27,6 +27,7 @@ class BoardWriteActivity : AppCompatActivity() {
     private var imageClick = false
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_write)
@@ -36,21 +37,28 @@ class BoardWriteActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_board_write)
         binding.writeBtn.setOnClickListener{
+
             var title = binding.titleArea.text.toString()
             var content = binding.contentArea.text.toString()
-
+            val uid = FBAuth.getUid()
+            val time = FBAuth.getTime()
             //board
             //  -key
             //      - boardModel
             //          title, content, uid, time
             //storage에 저장된 이미지정보를 글 키값으로 설정하기위해 변경
             var key =FBRef.boardRef.push().key.toString()
+//
+//            Log.d(TAG,"key===="+key)
+//            Log.d(TAG,"title===="+title)
+//            Log.d(TAG,"content===="+content)
+//            Log.d(TAG,"uid===="+uid)
+//            Log.d(TAG,"time===="+time)
+
             FBRef.boardRef.child(key)
-                    .setValue(BoardModel(title,content,FBAuth.getUid().toString(), FBAuth.getTime().toString()))
-
-
+                    .setValue(BoardModel(title,content,uid,time))
             Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
-            if( imageClick) {
+            if( imageClick == true) {
                 uploadImage(key)
             }
             finish()

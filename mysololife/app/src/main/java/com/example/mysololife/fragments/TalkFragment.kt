@@ -47,13 +47,6 @@ class TalkFragment : Fragment() {
         boardListAdaptor = BoardListAdaptor(boardList)
         binding.boardListView.adapter = boardListAdaptor
 
-
-
-
-
-
-
-
 //boardInsideActivity로 전달
 
         //게시물 클릭시 액티비티 이동 데이터 통째로 넘기기
@@ -114,9 +107,11 @@ class TalkFragment : Fragment() {
         var postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //database 호출시마다 클리어해서 다시 더해줌
+                Log.d(TAG,"load board")
                 boardList.clear()
                 for (dataModel in dataSnapshot.children) {
                     //firebase와 같은 형태의 ㅁmodel 클래스에 맞게끔 매
+
                     Log.d(TAG, dataModel.toString())
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardList.add(item!!)

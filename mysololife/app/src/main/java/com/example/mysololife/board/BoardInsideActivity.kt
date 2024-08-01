@@ -5,10 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.LayoutInflaterCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -28,18 +32,24 @@ class BoardInsideActivity : AppCompatActivity() {
     private var TAG = BoardInsideActivity::class.java.simpleName
 
     private lateinit var binding : ActivityBoardInsideBinding
-
+    private lateinit var key : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_inside)
+        key = intent.getStringExtra("key").toString()
 
-        var key = intent.getStringExtra("key")
         Log.d(TAG, "key=============="+key)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_board_inside)
         getBoardData(key.toString())
         getImagaData(key.toString())
 
 
+
+
+        //우상단 메뉴를 누르면 삭제수정 팝업을 보여줍니다
+        binding.Dialogmenu.setOnClickListener({
+            showDialog()
+        })
 
 
 
@@ -52,6 +62,26 @@ class BoardInsideActivity : AppCompatActivity() {
 //        Log.d(TAG, "content="+content)
 //        Log.d(TAG, "time="+time)
 
+
+
+    }
+    private fun showDialog(){
+        var dialog_view = LayoutInflater.from(this).inflate(R.layout.activity_dialog,null)
+        var builder = AlertDialog.Builder(this).setView(dialog_view).setTitle("게시글 수정/삭제")
+        var alertDialog = builder.show()
+
+        alertDialog.findViewById<Button>(R.id.deleteBtn)?.setOnClickListener({
+            Toast.makeText(this,"게시글 삭제",Toast.LENGTH_SHORT).show()
+            FBRef.boardRef.child(key).removeValue()
+            finish()
+        })
+        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener({
+            var intent = Intent(this, BoardEditActivity::class.java)
+
+            intent.putExtra("key",key)
+            startActivity(intent)
+            finish()
+        })
 
 
     }
@@ -80,6 +110,7 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.titleArea.text = item?.title.toString()
                 binding.textArea.text = item?.content.toString()
 
+                Log.d(TAG, "select list KEY ===="+key +" UID ===="+ item?.uid)
             }
             override fun onCancelled(error: DatabaseError) {
                 // Failed to read value
