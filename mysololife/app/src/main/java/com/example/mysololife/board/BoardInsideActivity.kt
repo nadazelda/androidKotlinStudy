@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.contentsList.ContentModel
 import com.example.mysololife.databinding.ActivityBoardInsideBinding
 import com.example.mysololife.databinding.FragmentTalkBinding
+import com.example.mysololife.utils.FBAuth
 import com.example.mysololife.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,6 +35,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityBoardInsideBinding
     private lateinit var key : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_inside)
@@ -111,6 +114,14 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.textArea.text = item?.content.toString()
 
                 Log.d(TAG, "select list KEY ===="+key +" UID ===="+ item?.uid)
+                //게시물에도 작성자 아이디가 있으니 이때 비교
+                var boardUid = item?.uid.toString()
+                var userUid = FBAuth.getUid()
+                if( boardUid.equals(userUid) ){
+                    binding.Dialogmenu.isVisible=true;
+                }
+
+
             }
             override fun onCancelled(error: DatabaseError) {
                 // Failed to read value

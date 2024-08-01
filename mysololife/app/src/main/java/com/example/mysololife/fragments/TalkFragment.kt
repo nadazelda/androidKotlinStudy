@@ -68,6 +68,8 @@ class TalkFragment : Fragment() {
         //데이터 불러오면 viewlistadaptor의 getView에서 값들을 매핑시켜준다
         binding.boardListView.setOnItemClickListener { parent, view, position, id ->
             var intent = Intent(requireContext(), BoardInsideActivity::class.java)
+            //사용자 uid를 넘겨서 수정삭제 유효성을 체크 --> 별로 비효율
+          //  intent.putExtra("uid",FBAuth.getUid())
             intent.putExtra("key",boardKeyList[position])
             startActivity(intent)
         }
@@ -111,14 +113,11 @@ class TalkFragment : Fragment() {
                 boardList.clear()
                 for (dataModel in dataSnapshot.children) {
                     //firebase와 같은 형태의 ㅁmodel 클래스에 맞게끔 매
-
                     Log.d(TAG, dataModel.toString())
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardList.add(item!!)
                     //2번방식을 위해서 키값을 넣어줌
                     boardKeyList.add(dataModel.key.toString())
-//                    items.add(item!!)
-//                    keyList.add(dataModel.key.toString())
                 }
                 boardList.reverse()
                 boardKeyList.reverse() // 최신글로 리버스됏기때문에 키도 리버스해줌
